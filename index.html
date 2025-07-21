@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIA – Loop Interactive Assistant | WhatsApp-Based Program for CCEP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .brand-text-primary { color: #005F73; }
+        .brand-text-secondary { color: #0A9396; }
+        .brand-text-accent { color: #EE9B00; }
+        .brand-bg-primary { background-color: #005F73; }
+        .brand-bg-secondary { background-color: #0A9396; }
+        .brand-bg-accent { background-color: #EE9B00; }
+        .brand-border-primary { border-color: #005F73; }
+        .brand-border-accent { border-color: #EE9B00; }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flowchart-step {
+            position: relative;
+            padding-left: 50px;
+            padding-bottom: 2rem;
+        }
+        .flowchart-step:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 18px;
+            top: 40px;
+            width: 2px;
+            height: 100%;
+            background-color: #94D2BD;
+        }
+        .flowchart-dot {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0A9396;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <div class="max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold brand-text-primary mb-2">LIA – Loop Interactive Assistant</h1>
+            <p class="text-lg md:text-xl text-gray-600">(WhatsApp-Based Program for CCEP)</p>
+        </header>
+        
+        <main class="space-y-12">
+
+            <section class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold brand-text-primary mb-4 text-center">Program Overview</h2>
+                <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600">
+                    Because of CCEP’s internal security requirements, we won’t be able to use the Loop Health mobile app for this program. Instead, we’re proposing to run the program fully through WhatsApp — using LIA (Loop Interactive Assistant) to guide participants and deliver the same core experience: daily nudges, health tracking, coaching, and content.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="text-center p-6 bg-red-50 rounded-lg border-2 border-red-200">
+                        <span class="text-5xl mb-4 block">📱 🚫</span>
+                        <h3 class="text-xl font-bold text-red-800">App Deployment Not Feasible</h3>
+                        <p class="text-red-700 mt-2">Internal security requirements prevent the use of the Loop Health mobile app.</p>
+                    </div>
+                    <div class="text-center p-6 bg-green-50 rounded-lg border-2 border-green-200">
+                        <span class="text-5xl mb-4 block">📲 ✅</span>
+                        <h3 class="text-xl font-bold text-green-800">WhatsApp-Based Program</h3>
+                        <p class="text-green-700 mt-2">LIA delivers core program value directly via WhatsApp, requiring no app installation or IT integration.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h2 class="text-2xl md:text-3xl font-bold brand-text-primary mb-6 text-center">Why This Approach?</h2>
+                 <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600">
+                    This strategy is direct and effective, ensuring maximum reach and minimal barriers to participation. It focuses on delivering tangible health benefits through a familiar and accessible channel.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition-shadow duration-300">
+                        <span class="text-5xl mb-4 block">🎯</span>
+                        <h3 class="text-xl font-bold brand-text-secondary mb-2">Goal Remains the Same</h3>
+                        <p>Help people living with or at risk of diabetes build healthier habits.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition-shadow duration-300">
+                        <span class="text-5xl mb-4 block">💬</span>
+                        <h3 class="text-xl font-bold brand-text-secondary mb-2">Universal Accessibility</h3>
+                        <p>WhatsApp is a tool everyone already uses, ensuring no learning curve and broad adoption.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition-shadow duration-300">
+                        <span class="text-5xl mb-4 block">✅</span>
+                        <h3 class="text-xl font-bold brand-text-secondary mb-2">Proven Success Model</h3>
+                        <p>Builds on our successful 2024 pilot at Sumedang and HQ, adapting the delivery method for wider reach.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold brand-text-primary mb-6 text-center">What Users Get (via WhatsApp and LIA)</h2>
+                 <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600">
+                    LIA ensures a comprehensive and supportive user experience, delivering personalized health guidance directly through WhatsApp.
+                </p>
+                <div class="max-w-2xl mx-auto">
+                     <div class="flowchart-step">
+                        <div class="flowchart-dot brand-bg-secondary">1</div>
+                        <h3 class="font-bold text-lg brand-text-primary mt-2">Onboarding</h3>
+                        <p class="text-gray-600">Users join a WhatsApp group or chat and choose DMP or DPP. A coach is assigned.</p>
+                    </div>
+                    <div class="flowchart-step">
+                        <div class="flowchart-dot brand-bg-secondary">2</div>
+                        <h3 class="font-bold text-lg brand-text-primary mt-2">Daily Check-ins</h3>
+                        <p class="text-gray-600">Messages from LIA to remind users to log weight or glucose, take meds, or stay on track.</p>
+                    </div>
+                    <div class="flowchart-step">
+                        <div class="flowchart-dot brand-bg-secondary">3</div>
+                        <h3 class="font-bold text-lg brand-text-primary mt-2">Chat-Based Tracking</h3>
+                        <p class="text-gray-600">Users can reply with their data, and coaches follow up directly.</p>
+                    </div>
+                     <div class="flowchart-step">
+                        <div class="flowchart-dot brand-bg-secondary">4</div>
+                        <h3 class="font-bold text-lg brand-text-primary mt-2">Monthly Coaching Call</h3>
+                        <p class="text-gray-600">Video call with their coach to check progress, reset goals.</p>
+                    </div>
+                     <div class="flowchart-step">
+                        <div class="flowchart-dot brand-bg-secondary">5</div>
+                        <h3 class="font-bold text-lg brand-text-primary mt-2">Content Sharing</h3>
+                        <p class="text-gray-600">Recipes, tips, short lessons — sent via chat as PDFs, images, or voice notes.</p>
+                    </div>
+                    <div class="flowchart-step">
+                        <div class="flowchart-dot brand-bg-secondary">6</div>
+                        <h3 class="font-bold text-lg brand-text-primary mt-2">Monthly Summaries</h3>
+                        <p class="text-gray-600">Coaches share a recap of progress and next steps.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h2 class="text-2xl md:text-3xl font-bold brand-text-primary mb-6 text-center">Pricing (3-Month Program)</h2>
+                 <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600">
+                    Pricing is adjusted by approximately 10% from standard app-based rates, reflecting the tailored WhatsApp delivery model.
+                </p>
+                <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+                    <table class="w-full text-left table-auto">
+                        <thead>
+                            <tr class="brand-bg-secondary text-white rounded-t-lg">
+                                <th class="p-3 rounded-tl-lg">Users</th>
+                                <th class="p-3">DMP (Diabetes)</th>
+                                <th class="p-3 rounded-tr-lg">DPP (Prevention)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3">0–49 users</td>
+                                <td class="p-3 font-semibold">Rp. 165,000</td>
+                                <td class="p-3 font-semibold">Rp. 110,000</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="p-3">50–99 users</td>
+                                <td class="p-3 font-semibold">Rp. 150,000</td>
+                                <td class="p-3 font-semibold">Rp. 100,000</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">100+ users</td>
+                                <td class="p-3 font-semibold">Rp. 135,000</td>
+                                <td class="p-3 font-semibold">Rp. 90,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="font-bold text-xl brand-text-secondary mb-4">Includes:</h3>
+                        <ul class="space-y-2 text-gray-600 list-inside list-disc">
+                            <li>WhatsApp program delivery</li>
+                            <li>Health coach</li>
+                            <li>Digital kit (glucose meter or scale)</li>
+                            <li>Content and reporting</li>
+                            <li>Unlimited chat support</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="font-bold text-xl brand-text-accent mb-4">Optional:</h3>
+                        <ul class="space-y-2 text-gray-600 list-inside list-disc">
+                            <li>HbA1c testing at Rp. 125,000/test (start and end of program for DMP)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold brand-text-primary mb-6 text-center">Onsite Support</h2>
+                <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600">
+                    We provide direct onsite support to ensure smooth program launch and wrap-up, tailored to your location needs.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="p-6 bg-gray-50 rounded-lg border-2 brand-border-primary text-center">
+                        <p class="text-6xl font-extrabold brand-text-accent">2x</p>
+                        <h3 class="text-xl font-bold brand-text-secondary mt-2">Onsite Visits Included</h3>
+                        <p class="text-gray-600 text-sm mt-1">One at the start, one at the end (for health talks + onboarding/wrap-up).</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg border-2 brand-border-primary text-center">
+                        <h3 class="text-xl font-bold brand-text-secondary mb-2">Location-Based Fees</h3>
+                        <p class="text-gray-600 mb-2">No added fee for JABODETABEK or Bandung.</p>
+                        <p class="text-gray-600">**Rp. 8,000,000 flat fee** per site outside those areas (covers team travel/logistics for max 2-day trip).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                 <h2 class="text-2xl md:text-3xl font-bold brand-text-primary mb-6 text-center">Reminder of 2024 Results</h2>
+                 <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600">
+                    Our previous pilot with CCEP demonstrated significant positive impact, and we are confident LIA will deliver similar, if not greater, results.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+                    <div class="p-6 bg-gray-50 rounded-xl">
+                        <p class="text-6xl font-extrabold brand-text-accent">40+</p>
+                        <h3 class="font-bold mt-2 brand-text-primary">Employees Joined</h3>
+                        <p class="text-sm text-gray-600">the program in the 2024 pilot.</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-xl">
+                        <div class="relative w-32 h-32 mx-auto">
+                            <canvas id="satisfactionChart"></canvas>
+                            <div class="absolute inset-0 flex items-center justify-center text-3xl font-extrabold brand-text-primary">95%</div>
+                        </div>
+                        <h3 class="font-bold mt-2 brand-text-primary">Strong Participation</h3>
+                        <p class="text-sm text-gray-600">and engagement observed.</p>
+                    </div>
+                     <div class="p-6 bg-gray-50 rounded-xl md:col-span-2 lg:col-span-1">
+                        <p class="text-6xl font-extrabold brand-text-accent">✓</p>
+                        <h3 class="font-bold mt-2 brand-text-primary">HbA1c Improvements</h3>
+                        <p class="text-sm text-gray-600">or stabilization across most DMP users.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold brand-text-primary mb-6 text-center">✨ Experience LIA: AI-Powered Features</h2>
+                <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600">
+                    See how LIA leverages intelligent support to deliver personalized content and feedback, enhancing the user experience and coaching effectiveness.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="p-6 bg-gray-50 rounded-lg border-2 brand-border-primary">
+                        <h3 class="text-xl font-bold brand-text-secondary mb-4">✨ Content Idea Generator</h3>
+                        <p class="text-gray-600 mb-4">Get a sample idea for personalized content that LIA users might receive.</p>
+                        <div class="mb-4">
+                            <label for="contentTypeInput" class="block text-sm font-medium text-gray-700 mb-1">Type of content (e.g., recipe, motivational message, educational material):</label>
+                            <input type="text" id="contentTypeInput" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-text-secondary focus:ring focus:ring-brand-text-secondary focus:ring-opacity-50 p-2" placeholder="e.g., healthy snack recipe">
+                        </div>
+                        <button id="generateContentBtn" class="brand-bg-secondary text-white px-6 py-2 rounded-md hover:brand-bg-primary transition-colors duration-200 flex items-center justify-center w-full">
+                            Generate Idea ✨
+                            <span id="contentLoader" class="loader hidden"></span>
+                        </button>
+                        <div id="contentOutput" class="mt-4 p-4 bg-gray-100 rounded-md text-gray-800 border brand-border-primary min-h-[80px] flex items-center justify-center text-center">
+                            Your generated content idea will appear here.
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-gray-50 rounded-lg border-2 brand-border-primary">
+                        <h3 class="text-xl font-bold brand-text-secondary mb-4">✨ Coach Feedback Simulator</h3>
+                        <p class="text-gray-600 mb-4">Experience the kind of personalized feedback a Loop Health coach might provide based on a health log.</p>
+                        <div class="mb-4">
+                            <label for="healthLogInput" class="block text-sm font-medium text-gray-700 mb-1">Enter your health log (e.g., My fasting glucose was 110 today, I walked 5k):</label>
+                            <textarea id="healthLogInput" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-text-secondary focus:ring focus:ring-brand-text-secondary focus:ring-opacity-50 p-2" placeholder="e.g., My glucose was 120 after lunch."></textarea>
+                        </div>
+                        <button id="getFeedbackBtn" class="brand-bg-secondary text-white px-6 py-2 rounded-md hover:brand-bg-primary transition-colors duration-200 flex items-center justify-center w-full">
+                            Get Coach Feedback ✨
+                            <span id="feedbackLoader" class="loader hidden"></span>
+                        </button>
+                        <div id="feedbackOutput" class="mt-4 p-4 bg-gray-100 rounded-md text-gray-800 border brand-border-primary min-h-[80px] flex items-center justify-center text-center">
+                            Simulated coach feedback will appear here.
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-gray-50 rounded-lg border-2 brand-border-primary">
+                        <h3 class="text-xl font-bold brand-text-secondary mb-4">✨ Healthy Meal Suggestion</h3>
+                        <p class="text-gray-600 mb-4">Get a quick, healthy meal idea tailored to your preferences.</p>
+                        <div class="mb-4">
+                            <label for="mealPreferenceInput" class="block text-sm font-medium text-gray-700 mb-1">Any dietary preferences or ingredients (e.g., vegetarian, chicken, low-carb):</label>
+                            <input type="text" id="mealPreferenceInput" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-text-secondary focus:ring focus:ring-brand-text-secondary focus:ring-opacity-50 p-2" placeholder="e.g., quick breakfast, vegetarian">
+                        </div>
+                        <button id="getMealBtn" class="brand-bg-secondary text-white px-6 py-2 rounded-md hover:brand-bg-primary transition-colors duration-200 flex items-center justify-center w-full">
+                            Suggest Meal ✨
+                            <span id="mealLoader" class="loader hidden"></span>
+                        </button>
+                        <div id="mealOutput" class="mt-4 p-4 bg-gray-100 rounded-md text-gray-800 border brand-border-primary min-h-[80px] flex items-center justify-center text-center">
+                            Your healthy meal suggestion will appear here.
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-gray-50 rounded-lg border-2 brand-border-primary">
+                        <h3 class="text-xl font-bold brand-text-secondary mb-4">✨ Health Fact Explainer</h3>
+                        <p class="text-gray-600 mb-4">Get a simple explanation for a health-related term or concept.</p>
+                        <div class="mb-4">
+                            <label for="healthFactInput" class="block text-sm font-medium text-gray-700 mb-1">What health term or concept would you like explained?</label>
+                            <input type="text" id="healthFactInput" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-text-secondary focus:ring focus:ring-brand-text-secondary focus:ring-opacity-50 p-2" placeholder="e.g., what is HbA1c?">
+                        </div>
+                        <button id="getHealthFactBtn" class="brand-bg-secondary text-white px-6 py-2 rounded-md hover:brand-bg-primary transition-colors duration-200 flex items-center justify-center w-full">
+                            Explain Fact ✨
+                            <span id="healthFactLoader" class="loader hidden"></span>
+                        </button>
+                        <div id="healthFactOutput" class="mt-4 p-4 bg-gray-100 rounded-md text-gray-800 border brand-border-primary min-h-[80px] flex items-center justify-center text-center">
+                            The explanation will appear here.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="brand-bg-primary text-white rounded-2xl shadow-lg p-6 md:p-8">
+                 <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">A Smarter Delivery Method</h2>
+                 <p class="font-bold text-center text-xl">We’re aiming to deliver the same kind of impact — just through a different format.</p>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-12 pt-8 border-t border-gray-300">
+            <p class="font-bold brand-text-primary text-xl">LIA – Loop Interactive Assistant: A smarter delivery method.</p>
+            <p class="text-sm text-gray-500 mt-2">&copy; 2025 Loop Health. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                  return label.join(' ');
+                } else {
+                  return label;
+                }
+            };
+            
+            const sharedChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                           title: tooltipTitleCallback
+                        },
+                        backgroundColor: '#005F73',
+                        titleFont: { weight: 'bold' },
+                        bodyFont: { size: 14 },
+                        padding: 12,
+                        cornerRadius: 8,
+                    }
+                }
+            };
+
+            const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+            new Chart(satisfactionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Satisfied', 'Other'],
+                    datasets: [{
+                        data: [95, 5],
+                        backgroundColor: ['#0A9396', '#E9D8A6'],
+                        borderColor: ['#005F73', '#f0f4f8'],
+                        borderWidth: 4,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    ...sharedChartOptions,
+                    cutout: '80%',
+                    plugins: {
+                         legend: { display: false },
+                         tooltip: {
+                            ...sharedChartOptions.plugins.tooltip,
+                             callbacks: {
+                                title: tooltipTitleCallback,
+                                label: function(context) {
+                                     return `${context.label}: ${context.raw}%`;
+                                 }
+                             }
+                         }
+                    }
+                }
+            });
+
+            // LLM Integration
+            const generateContentBtn = document.getElementById('generateContentBtn');
+            const contentTypeInput = document.getElementById('contentTypeInput');
+            const contentOutput = document.getElementById('contentOutput');
+            const contentLoader = document.getElementById('contentLoader');
+
+            const getFeedbackBtn = document.getElementById('getFeedbackBtn');
+            const healthLogInput = document.getElementById('healthLogInput');
+            const feedbackOutput = document.getElementById('feedbackOutput');
+            const feedbackLoader = document.getElementById('feedbackLoader');
+
+            const getMealBtn = document.getElementById('getMealBtn');
+            const mealPreferenceInput = document.getElementById('mealPreferenceInput');
+            const mealOutput = document.getElementById('mealOutput');
+            const mealLoader = document.getElementById('mealLoader');
+
+            const getHealthFactBtn = document.getElementById('getHealthFactBtn');
+            const healthFactInput = document.getElementById('healthFactInput');
+            const healthFactOutput = document.getElementById('healthFactOutput');
+            const healthFactLoader = document.getElementById('healthFactLoader');
+
+            const callGeminiAPI = async (prompt, outputElement, loaderElement, buttonElement) => {
+                outputElement.textContent = '';
+                loaderElement.classList.remove('hidden');
+                buttonElement.disabled = true;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        outputElement.textContent = text;
+                    } else {
+                        outputElement.textContent = 'Error: Could not get a response from the AI.';
+                    }
+                } catch (error) {
+                    console.error('API call failed:', error);
+                    outputElement.textContent = 'Error: Failed to connect to the AI service.';
+                } finally {
+                    loaderElement.classList.add('hidden');
+                    buttonElement.disabled = false;
+                }
+            };
+
+            generateContentBtn.addEventListener('click', () => {
+                const contentType = contentTypeInput.value.trim();
+                if (contentType) {
+                    const prompt = `As LIA, the Loop Interactive Assistant, generate a short, engaging idea for a WhatsApp content piece about "${contentType}". Make it relevant to health and wellness for a CCEP employee.`;
+                    callGeminiAPI(prompt, contentOutput, contentLoader, generateContentBtn);
+                } else {
+                    contentOutput.textContent = 'Please enter a content type.';
+                }
+            });
+
+            getFeedbackBtn.addEventListener('click', () => {
+                const healthLog = healthLogInput.value.trim();
+                if (healthLog) {
+                    const prompt = `As a Loop Health coach, provide a brief, encouraging, and actionable feedback message for a CCEP employee who logged the following: "${healthLog}". Focus on positive reinforcement and a small next step.`;
+                    callGeminiAPI(prompt, feedbackOutput, feedbackLoader, getFeedbackBtn);
+                } else {
+                    feedbackOutput.textContent = 'Please enter your health log.';
+                }
+            });
+
+            getMealBtn.addEventListener('click', () => {
+                const mealPreference = mealPreferenceInput.value.trim();
+                if (mealPreference) {
+                    const prompt = `As LIA, the Loop Interactive Assistant, suggest a quick, healthy meal idea for a CCEP employee with the following preferences/ingredients: "${mealPreference}". Provide a simple name and a brief description.`;
+                    callGeminiAPI(prompt, mealOutput, mealLoader, getMealBtn);
+                } else {
+                    mealOutput.textContent = 'Please enter some meal preferences or ingredients.';
+                }
+            });
+
+            getHealthFactBtn.addEventListener('click', () => {
+                const healthFact = healthFactInput.value.trim();
+                if (healthFact) {
+                    const prompt = `As LIA, the Loop Interactive Assistant, provide a simple, easy-to-understand explanation for the following health term/concept: "${healthFact}". Keep it concise and informative for a CCEP employee.`;
+                    callGeminiAPI(prompt, healthFactOutput, healthFactLoader, getHealthFactBtn);
+                } else {
+                    healthFactOutput.textContent = 'Please enter a health term or concept.';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
